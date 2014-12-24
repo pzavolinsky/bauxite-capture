@@ -3,12 +3,13 @@ bauxite-capture
 
 [EXPERIMENTAL]
 
-This is a Firefox add-on to capture [Bauxite](https://github.com/pzavolinsky/bauxite) test.
+This is a Firefox add-on to capture [Bauxite](https://github.com/pzavolinsky/bauxite) tests.
 
 Installation
 ------------
 
-TODO
+Click [here](https://github.com/pzavolinsky/bauxite-capture/raw/master/bauxite-capture/bauxite-capture.xpi).
+
 
 Hello World
 -----------
