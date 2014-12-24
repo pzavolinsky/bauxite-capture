@@ -36,5 +36,9 @@ var selectors = {
     var href = i.attr('href');
     if (!href || href.indexOf('#') == 0) return;
     return 'attr=href:'+href;
+  },
+  tag: function(i) {
+    var tag = i[0].tagName;
+    if ($(tag).length == 1) return 'css='+tag;
   }
 };

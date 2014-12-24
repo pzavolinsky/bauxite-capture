@@ -1,13 +1,25 @@
-addon.port.on('capture', function(data) {
+addon.port.on('add', function(data) {
   var log = $('#log');
-  if (data.action == 'reset') { log.val(''); return; }
   var val = log.val();
   if (val) val += '\n';
-  log.val(val+data.text);
+  log.val(val+data);
+});
+
+addon.port.on('reset', function(data) {
+  $('#log').val('');
+});
+
+addon.port.on('load', function(data) {
+  $('#log').val(data);
+});
+
+addon.port.on('detach', function() {
+  addon.port.emit('store', $('#log').val());
 });
 
 $(function() {
   $('#save').click(function() {
+    addon.port.emit('store', $('#log').val());
     addon.port.emit('save');
   });
 });

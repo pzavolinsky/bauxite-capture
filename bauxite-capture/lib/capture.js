@@ -29,7 +29,7 @@ function setupCapture(tab) {
   captureData.worker = worker;
 
   worker.port.on('capture', function(data) {
-    sidebar.emit('capture', data);
+    sidebar.add(data);
     var action = [data.action, data.selector];
     if (data.args) action.push(data.args);
   });
@@ -41,8 +41,8 @@ function startCapture() {
 
   captureData = { tab: tabs.activeTab };
 
-  sidebar.emit('capture', {action: 'reset' });
-  sidebar.emit('capture', {action: 'open', args: [ tabs.activeTab.url ] })
+  sidebar.reset();
+  sidebar.add({action: 'open', args: [ tabs.activeTab.url ] })
   tabs.activeTab.on('ready'     , setupCapture );
   tabs.activeTab.on('activate'  , activateTab  );
   tabs.activeTab.on('deactivate', deactivateTab);

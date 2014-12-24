@@ -25,5 +25,4 @@ function capture(e) {
   self.port.emit('capture', qe);
 }
 
-var captures = ['click', 'change'];
-for (var i in captures) document.addEventListener(captures[i], function(e) { capture(e); }, true);
+for (var i in events) document.addEventListener(i, function(e) { capture(e); }, true);

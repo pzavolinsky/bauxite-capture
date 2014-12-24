@@ -5,29 +5,13 @@ var filepicker = require('./filepicker.js');
 
 var sidebar_port;
 var sidebar_queue = [];
-var sidebar_data = [];
+var sidebar_data;
 var sidebar_url;
 
-function sidebarEmit(type, message, track) {
+function sidebarEmit(type, message) {
   var payload = { type: type, message: message};
-  if (track) {
-    if (message.action == 'reset') {
-      sidebar_data = [];
-      sidebar_url = null;
-    } else {
-      sidebar_data.push(payload);
-    }
-  }
-  if (!sidebar_url && message.action == 'open') sidebar_url = message.args[0];
   if (sidebar_port) sidebar_port.emit(type, message);
   else sidebar_queue.push(payload);
-}
-
-function replayData() {
-  for (var i in sidebar_data) {
-    var payload = sidebar_data[i];
-    sidebarEmit(payload.type, payload.message, false);
-  }
 }
 
 function saveData() {
@@ -42,12 +26,7 @@ function saveData() {
   if (!path) return;
 
   var stream = fs.open(path, 'w');
-
-  for (var i in sidebar_data) {
-    var payload = sidebar_data[i];
-    if (payload.type != 'capture') continue;
-    stream.write(payload.message.text+'\n');
-  }
+  stream.write(sidebar_data);
   stream.flush();
   stream.close();
 }
@@ -59,23 +38,27 @@ var sidebar = ui.Sidebar({
   onAttach: function(worker) {
     sidebar_port = worker.port;
     sidebar_port.on('save', function() { saveData(); });
+    sidebar_port.on('store', function(data) { sidebar_data = data; });
   },
-  onDetach: function()       { sidebar_port = null;        },
+  onDetach: function() { sidebar_port = null; },
   onShow: function(worker) {
-    replayData();
+    if (sidebar_data) sidebar_port.emit('load', sidebar_data);
+    for (var i in sidebar_queue) {
+      var payload = sidebar_queue[i];
+      sidebar_port.emit(payload.type, payload.message);
+    }
     sidebar_queue = [];
   }
 });
 
-exports.emit = function(type, message) {
-  if (type == 'capture') {
-    var action = [message.action];
-    if (message.selector) action.push(message.selector);
-    if (message.args) action.push(message.args);
-    message.text = action.join(' ');
-  }
-
-  sidebarEmit(type, message, true);
+exports.add = function(message) {
+  if (!sidebar_url && message.action == 'open') sidebar_url = message.args[0];
+  var action = [message.action];
+  if (message.selector) action.push(message.selector);
+  if (message.args) action.push(message.args);
+  var text = action.join(' ');
+  sidebarEmit('add', text);
 }
-exports.show = function() { sidebar.show(); }
-exports.hide = function() { sidebar.hide(); }
+exports.reset = function() { sidebar_data = null; sidebar_url = null; sidebarEmit('reset'); }
+exports.show  = function() { sidebar.show(); }
+exports.hide  = function() { sidebar.hide(); }

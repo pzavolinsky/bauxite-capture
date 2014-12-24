@@ -11,5 +11,6 @@ var events = {
       args: [ $(e.target).val() ]
     };
   },
-  click: function(e) { return { action: 'click' }; }
+  click: function(e) { return { action: 'click' }; },
+  submit: function(e) { return { action: 'submit' }; }
 };
