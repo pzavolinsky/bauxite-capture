@@ -8,7 +8,7 @@ This is a Firefox add-on to capture [Bauxite](https://github.com/pzavolinsky/bau
 Installation
 ------------
 
-Click [here](https://github.com/pzavolinsky/bauxite-capture/raw/master/bauxite-capture/bauxite-capture.xpi).
+Click [here](https://github.com/pzavolinsky/bauxite-capture/raw/master/bauxite-capture/bauxite-capture.xpi) do download the xpi, then drag into Firefox.
 
 
 Hello World
