@@ -6,8 +6,10 @@ var selectors = {
     var id = i.attr('id');
     if (id) return 'css=#'+id;
 
-    var classes = i.attr('class').split(' ');
-    if (!classes.length) return;
+    var classes = i.attr('class');
+    if (!classes) return;
+
+    classes = classes.split(' ');
 
     if (!prefix) prefix = '';
 
@@ -29,5 +31,10 @@ var selectors = {
       if (s) s = selectors.css(i, s.replace('css=', '')+' ');
       if (s) return s;
     }
+  },
+  href: function(i) {
+    var href = i.attr('href');
+    if (!href || href.indexOf('#') == 0) return;
+    return 'attr=href:'+href;
   }
 };

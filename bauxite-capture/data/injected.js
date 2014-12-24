@@ -1,5 +1,3 @@
-$('body').prepend($('<div>pipi</div>'));
-
 function guessSelector(item) {
   item = $(item);
   for (var i in selectors) {
@@ -29,4 +27,3 @@ function capture(e) {
 
 var captures = ['click', 'change'];
 for (var i in captures) document.addEventListener(captures[i], function(e) { capture(e); }, true);
-
