@@ -1,0 +1,9 @@
+{
+  "name": "bauxite-capture",
+  "title": "Bauxite capture",
+  "id": "bauxite-capture",
+  "description": "Record baxuite tests from your browser activity",
+  "author": "Patricio Zavolinsky",
+  "license": "MPL 2.0",
+  "version": "1.0"
+}
