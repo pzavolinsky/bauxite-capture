@@ -60,7 +60,7 @@ function stopCapture() {
   viewFor(captureData.tab).removeAttribute('style');
   captureData.worker.destroy();
   captureData = null;
-  sidebar.hide();
+  //sidebar.hide();
 }
 
 exports.toggle = toggleCapture;
