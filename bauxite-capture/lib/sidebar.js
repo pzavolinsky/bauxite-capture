@@ -2,6 +2,8 @@ var data       = require('sdk/self').data;
 var ui         = require('sdk/ui');
 var fs         = require('sdk/io/file');
 var filepicker = require('./filepicker.js');
+var bauxite    = require('./bauxite.js');
+var result     = require('./result.js');
 
 var sidebar_port;
 var sidebar_queue = [];
@@ -31,6 +33,12 @@ function saveData() {
   stream.close();
 }
 
+function execData() {
+  bauxite.run(sidebar_data, function(output, ok) {
+    result.show({ output: output, ok: ok });
+  });
+}
+
 var sidebar = ui.Sidebar({
   id: 'bauxite-capture',
   title: 'Bauxite Capture',
@@ -39,9 +47,11 @@ var sidebar = ui.Sidebar({
     sidebar_port = worker.port;
     sidebar_port.on('save', function() { saveData(); });
     sidebar_port.on('store', function(data) { sidebar_data = data; });
+    sidebar_port.on('exec', function() { execData(); });
   },
   onDetach: function() { sidebar_port = null; },
   onShow: function(worker) {
+    sidebar_port.emit('config', { bauxite: bauxite.installed });
     if (sidebar_data) sidebar_port.emit('load', sidebar_data);
     for (var i in sidebar_queue) {
       var payload = sidebar_queue[i];
@@ -62,3 +72,4 @@ exports.add = function(message) {
 exports.reset = function() { sidebar_data = null; sidebar_url = null; sidebarEmit('reset'); }
 exports.show  = function() { sidebar.show(); }
 exports.hide  = function() { sidebar.hide(); }
+

@@ -1,3 +1,7 @@
+addon.port.on('config', function(data) {
+  $(function() { $('#exec').toggle(!!data.bauxite); });
+});
+
 addon.port.on('add', function(data) {
   var log = $('#log');
   var val = log.val();
@@ -21,5 +25,9 @@ $(function() {
   $('#save').click(function() {
     addon.port.emit('store', $('#log').val());
     addon.port.emit('save');
+  });
+  $('#exec').click(function() {
+    addon.port.emit('store', $('#log').val());
+    addon.port.emit('exec');
   });
 });

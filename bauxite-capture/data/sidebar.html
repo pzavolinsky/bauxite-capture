@@ -5,15 +5,18 @@
     <script type="text/javascript" src="sidebar.js"></script>
     <style type="text/css">
       html, body { width: 100%; height: 100%; margin: 0; border: 0; padding: 0; background-color: gray }
-      .box { position: absolute; top: 4px; left: 4px; right: 4px; bottom: 50px; }
+      .log-box { position: absolute; top: 4px; left: 4px; right: 4px; bottom: 50px; }
       #log { width: 100%; height: 100%; background-color: white; white-space: pre; font-family: monospace; font-size: 8pt; border: 0; margin: 0; padding: 0; }
-      #save { position: absolute; bottom: 4px; }
+      .button-box { position: absolute; bottom: 4px; }
     </style>
   </head>
   <body>
-    <div class="box">
+    <div class="log-box">
       <textarea id="log" wrap="off"></textarea>
     </div>
-    <button id="save">Save...</button>
+    <div class="button-box">
+      <button id="save">Save...</button>
+      <button id="exec">Run!</button>
+    </div>
   </body>
 </html>
