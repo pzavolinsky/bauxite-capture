@@ -4,6 +4,7 @@ var { viewFor } = require('sdk/view/core');
 var sidebar     = require('./sidebar.js');
 
 var captureData;
+var stopCallback;
 
 function toggleCapture() {
   if (captureData) stopCapture();
@@ -61,6 +62,10 @@ function stopCapture() {
   captureData.worker.destroy();
   captureData = null;
   //sidebar.hide();
+  if (stopCallback) stopCallback();
 }
 
+sidebar.onClose(stopCapture);
+
 exports.toggle = toggleCapture;
+exports.onStop = function(callback) { stopCallback = callback; }

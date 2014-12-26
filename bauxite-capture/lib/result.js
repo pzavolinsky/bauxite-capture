@@ -1,21 +1,31 @@
 var data     = require('sdk/self').data;
 var tabs     = require("sdk/tabs");
+var wqueue   = require('./wqueue.js');
 
-function show(content) {
+function open(config) {
+  var wq = wqueue.create();
   var result = tabs.open({
     url: data.url("result.html"),
-    inBackground: true,
     onReady: function(tab) {
-      var worker = tab.attach({
+      worker = tab.attach({
         contentScriptFile: [
           data.url('jquery-1.11.2.min.js'),
           data.url('result.js')
         ]
       });
-      worker.port.emit('content', content);
+      wq.set(worker);
+      wq.flush();
+      wq.emit('config', config);
     }
   });
+
+  return {
+    tab: result,
+    show: function(content) {
+      wq.emit('content', content);
+    }
+  };
 }
 
-exports.show  = show
+exports.open = open;
 

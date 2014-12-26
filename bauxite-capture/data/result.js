@@ -1,8 +1,13 @@
+self.port.on('config', function(config) {
+  document.title += ' [run '+config.run+']';
+});
+
 self.port.on('content', function(content) {
   $(function() {
-    $('#status').text(content.ok ? 'OK' : 'ERROR');
+    $('#status').attr('class', content.ok ? 'ok' : 'error');
     $('#output').text(content.output);
-    $('#wait').hide();
-    $('#result').show();
+    $('#wait').addClass('hidden');
+    $('#result').removeClass('hidden');
+    document.title += ' [' + (content.ok ? 'ok' : 'error') + ']';
   });
 })

@@ -16,3 +16,6 @@ var recordButton = ui.ToggleButton({
   }
 });
 
+capture.onStop(function() {
+  recordButton.state('window', {checked: false});
+});
