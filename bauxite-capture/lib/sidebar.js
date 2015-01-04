@@ -11,6 +11,7 @@ var sidebar_url;
 var wq = wqueue.create();
 var run_count = 0;
 var no_close;
+var sidebar_close;
 
 function reset() {
   sidebar_data = null;

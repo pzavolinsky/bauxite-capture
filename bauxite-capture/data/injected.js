@@ -1,11 +1,3 @@
-function guessSelector(item) {
-  item = $(item);
-  for (var i in selectors) {
-    var s = selectors[i](item);
-    if (s) return s;
-  }
-}
-
 function quote(s) {
   if (!s.match(/[" ]/)) return s;
   return '"'+(s.replace(/"/g, '""'))+'"';

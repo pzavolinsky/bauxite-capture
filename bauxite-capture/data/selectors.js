@@ -54,3 +54,12 @@ var selectors = {
     if (tag != 'HTML' && $(tag).length == 1) return 'css='+tag;
   }
 };
+
+function guessSelector(item) {
+  item = $(item);
+  for (var i in selectors) {
+    var s = selectors[i](item);
+    if (s) return s;
+  }
+}
+

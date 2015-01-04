@@ -2,6 +2,7 @@ var data        = require('sdk/self').data;
 var tabs        = require('sdk/tabs');
 var { viewFor } = require('sdk/view/core');
 var sidebar     = require('./sidebar.js');
+var ctxMenu     = require('./context-menu.js');
 
 var captureData;
 var stopCallback;
@@ -31,12 +32,10 @@ function setupCapture(tab) {
 
   worker.port.on('capture', function(data) {
     sidebar.add(data);
-    var action = [data.action, data.selector];
-    if (data.args) action.push(data.args);
   });
 }
-function activateTab()   { if (captureData) sidebar.show(); }
-function deactivateTab() { sidebar.hide(); }
+function activateTab()   { if (!captureData) return; sidebar.show(); ctxMenu.show(); }
+function deactivateTab() { sidebar.hide(); ctxMenu.hide(); }
 function startCapture() {
   if (captureData) return;
 
@@ -50,6 +49,7 @@ function startCapture() {
   setupCapture(tabs.activeTab);
 
   sidebar.show();
+  ctxMenu.show();
 }
 function stopCapture() {
   if (!captureData) return;
